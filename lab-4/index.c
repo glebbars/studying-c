@@ -45,15 +45,15 @@ int main()
   printf("\nПочаткові дані\n");
   vyvids(osoba, N); // вивід початкових даних
 
-  sortVstavkamiStat(osoba, N); // сортування структури за статтю
+  sortVstavkamiStat(osoba, N); // сортування структур за статтю
 
   printf("\nВідсортовані за статтю дані\n");
   vyvids(osoba, N); // вивід відсортованої за статтю структури
 
-  sortVstavkamiZrist(osoba, N); // сортування структури за зрістом
+  sortVstavkamiZrist(osoba, N); // сортування структур за зрістом
 
   printf("\nВідсортовані за зрістом дані\n");
-  vyvids(osoba, N); // вивід відсортованої за зрістом структури
+  vyvids(osoba, N); // вивід відсортованих за зрістом структур
 
   printf("\n\n");
   system("pause");
