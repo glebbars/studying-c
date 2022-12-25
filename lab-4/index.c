@@ -4,12 +4,6 @@
 
 #define N 5
 
-enum keyString
-{
-  age,
-  height
-};
-
 struct dani
 {                        // дані про особу
   char name[20];         // прізвище
