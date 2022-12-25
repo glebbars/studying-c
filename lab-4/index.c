@@ -12,7 +12,8 @@ enum keyString
 
 struct dani
 {                        // дані про особу
-  char name[20];         // прізвище й ініціали
+  char name[20];         // прізвище
+  char initials[5];      // ініціали
   char sex[20];          // стать
   char socialStatus[30]; // соціальний стан
   char familyStatus[50]; // сімейний стан
@@ -20,9 +21,8 @@ struct dani
   int height;            // зріст
 };
 
-// void sortVstavkamiVik(struct dani osoba[], int n);
-// void sortVstavkamiZrist(struct dani osoba[], int n);
-void sortVstavkami(struct dani osoba[], int n, char sortKey[2]);
+void sortVstavkamiStat(struct dani osoba[], int n);
+void sortVstavkamiZrist(struct dani osoba[], int n);
 void vyvids(struct dani osoba[], int n);
 void vvidsa(struct dani *danir);
 
@@ -31,31 +31,29 @@ int main()
   /* Робота зі структурами */
   struct dani osoba[N] =
       {
-          {"Петрова К.В", "жіноча", "вчитель", "у відносинах", 32, 175},
-          {"Зайцев Р.О", "чоловіча", "робітник", "одружен", 48, 195},
-          {"Когут О.К", "жіноча", "домогосподарка", "одружена", 56, 168},
-          {"Скрипка С.Б", "жіноча", "учениця", "в активному пошуку", 14, 156}};
+          {"Петрова", "К.В", "жіноча", "вчитель", "у відносинах", 32, 175},
+          {"Зайцев", "Р.О", "чоловіча", "робітник", "одружен", 48, 195},
+          {"Когут", "О.К", "жіноча", "домогосподарка", "одружена", 56, 168},
+          {"Скрипка", "С.Б", "чоловіча", "ученик", "в активному пошуку", 14, 156}};
 
   system("chcp 1251 & cls");
 
   printf("Введіть дані про останню особу\n");
-  printf("\t(прізвище й ініціали, стать, соціальний стан, сімейний стан, вік, зріст особи)\n");
-  vvidsa(&osoba[N - 1]);
+  printf("\t(прізвище, ініціали, стать, соціальний стан, сімейний стан, вік, зріст особи)\n");
+  vvidsa(&osoba[N - 1]); //  передаємо структуру за адресою
 
   printf("\nПочаткові дані\n");
-  vyvids(osoba, N);
+  vyvids(osoba, N); // вивід початкових даних
 
-  // sortVstavkamiVik(osoba, N);
-  sortVstavkami(osoba, N, "a");
+  sortVstavkamiStat(osoba, N); // сортування структури за статтю
 
-  printf("\nВідсортовані за віком дані\n");
-  vyvids(osoba, N);
+  printf("\nВідсортовані за статтю дані\n");
+  vyvids(osoba, N); // вивід відсортованої за статтю структури
 
-  // sortVstavkamiZrist(osoba, N);
-  sortVstavkami(osoba, N, "h");
+  sortVstavkamiZrist(osoba, N); // сортування структури за зрістом
 
   printf("\nВідсортовані за зрістом дані\n");
-  vyvids(osoba, N);
+  vyvids(osoba, N); // вивід відсортованої за зрістом структури
 
   printf("\n\n");
   system("pause");
@@ -65,88 +63,53 @@ int main()
 /* Ввід даних в поля структури, переданої за адресою */
 void vvidsa(struct dani *danir)
 {
-  scanf("%s%s%s%s%d%d", (*danir).name, (*danir).sex, (*danir).socialStatus, (*danir).familyStatus, &(*danir).age, &(*danir).height);
+  scanf("%s%s%s%s%s%d%d", (*danir).name, (*danir).initials, (*danir).sex, (*danir).socialStatus, (*danir).familyStatus, &(*danir).age, &(*danir).height);
 }
 
-/* Сортування простими вставками за елементом "age" */
-// void sortVstavkamiVik(struct dani osoba[], int n)
-// {
-//   int i, j;
-//   struct dani key;
-
-//   for (i = 1; i < n; i++)
-//   {
-//     key = osoba[i];
-//     j = i - 1;
-
-//     while (j >= 0 && osoba[j].age > key.age)
-//     {
-//       osoba[j + 1] = osoba[j];
-//       j--;
-//     }
-//     osoba[j + 1] = key;
-//   }
-// }
-
-/* Сортування простими вставками */
-void sortVstavkami(struct dani osoba[], int n, char sortKey[2])
+/* Сортування простими вставками за зростанням (від А до Я) за елементом "sex" */
+void sortVstavkamiStat(struct dani osoba[], int n)
 {
-  int i, j;
-  struct dani key;
+  int i, j;        // індекси елементів масиву
+  struct dani key; // структура для порівняння при сортуванні
 
   for (i = 1; i < n; i++)
   {
     key = osoba[i];
     j = i - 1;
 
-    /* Сортування за елементом "age" */
-    if (strcmp(sortKey, "a") == 0)
+    while (j >= 0 && strcmp(osoba[j].sex, key.sex) > 0) // для порівняння двох строк використовуємо функцію strcmp. Для сортування за зростанням (від А до Я) потрібно, щоб результат функції був 1
     {
-      while (j >= 0 && osoba[j].age > key.age)
-      {
-        osoba[j + 1] = osoba[j];
-        j--;
-      }
-      osoba[j + 1] = key;
+      osoba[j + 1] = osoba[j];
+      j--;
     }
-
-    /* Сортування за елементом "height" */
-    else if (strcmp(sortKey, "h") == 0)
-    {
-      while (j >= 0 && osoba[j].height > key.height)
-      {
-        osoba[j + 1] = osoba[j];
-        j--;
-      }
-      osoba[j + 1] = key;
-    }
+    osoba[j + 1] = key;
   }
 }
 
-// /* Сортування простими вставками за елементом "height" */
-// void sortVstavkamiZrist(struct dani osoba[], int n)
-// {
-//   int i, j;
-//   struct dani key;
+/* Сортування простими вставками за зростанням за елементом "height" */
+void sortVstavkamiZrist(struct dani osoba[], int n)
+{
+  int i, j;        // індекси елементів масиву
+  struct dani key; // структура для порівняння при сортуванні
 
-//   for (i = 1; i < n; i++)
-//   {
-//     key = osoba[i];
-//     j = i - 1;
+  for (i = 1; i < n; i++)
+  {
+    key = osoba[i];
+    j = i - 1;
 
-//     while (j >= 0 && osoba[j].height > key.height)
-//     {
-//       osoba[j + 1] = osoba[j];
-//       j--;
-//     }
-//     osoba[j + 1] = key;
-//   }
-// }
+    while (j >= 0 && osoba[j].height > key.height) // порівнюємо зріст для сортування за зростанням
+    {
+      osoba[j + 1] = osoba[j];
+      j--;
+    }
+    osoba[j + 1] = key;
+  }
+}
 
 /* Вивід полів структури */
 void vyvids(struct dani osoba[], int n)
 {
   int i;
   for (i = 0; i < n; i++)
-    printf("\t%s, %s, %s, %s, %d, %d\n", osoba[i].name, osoba[i].sex, osoba[i].socialStatus, osoba[i].familyStatus, osoba[i].age, osoba[i].height);
+    printf("\t%s, %s, %s, %s, %s, %d, %d\n", osoba[i].name, osoba[i].initials, osoba[i].sex, osoba[i].socialStatus, osoba[i].familyStatus, osoba[i].age, osoba[i].height);
 }
