@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/iphoneblack/Desktop/КПИ/1 курс/Програмування (Онисько)/lab_2",
+      "program": "/Users/iphoneblack/Desktop/КПИ/1 курс/Програмування (Онисько)/lab_2/build/Debug/outDebug"
+    }
+  ]
+}
